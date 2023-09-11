@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { NavLink } from "react-router-dom";
 
 const navigation = [
   { name: 'Home', href: '/'},
   { name: 'About', href: '/about' },
-  { name: 'Service', href: '#'},
 ]
 
 function classNames(...classes) {
@@ -40,23 +40,26 @@ export default function Header(props) {
                     alt="Your Company"
                   />
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                  <div className="hidden sm:ml-6 sm:block">
+                    <div className="flex space-x-4">
+                      {navigation.map((item) => (
+                        <NavLink
+                          key={item.name}
+                          to={item.href}
+                          className={({ isActive }) => {
+                            return (
+                              "px-3 py-2 rounded-md text-sm font-medium no-underline " +
+                              (!isActive
+                                ? " text-gray-300 hover:bg-gray-700 hover:text-white"
+                                : "bg-gray-900 text-white")
+                            );
+                          }}
+                        >
+                          {item.name}
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
-                </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
